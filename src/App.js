@@ -9,6 +9,7 @@ function App() {
   const [city, setCity] = useState('Vancouver');
   const [searchedCity, setSearchedCity] = useState('Vancouver');
   const [unit, setUnit] = useState('metric');
+  const [theme, setTheme] = useState('light');
   const [weather, setWeather] = useState(null);
   const [forecast, setForecast] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -159,8 +160,14 @@ function App() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const todayLabel = new Date().toLocaleDateString('en-US', {
+    weekday: 'short',
+    month: 'short',
+    day: 'numeric'
+  });
+
   return (
-    <main className="app">
+    <main className={`app ${theme}`}>
       <section className="hero">
         <div className="hero-background" aria-hidden="true">
           <span>Clear Skies</span>
@@ -169,12 +176,27 @@ function App() {
         </div>
 
         <div className="hero-content">
-          <p className="app-badge">☁️ Skyline Weather</p>
+          <div className="hero-topline">
+            <p className="app-badge">☁️ Skyline Weather</p>
+            <button
+              type="button"
+              className="theme-toggle"
+              onClick={() => setTheme((currentTheme) => currentTheme === 'light' ? 'dark' : 'light')}
+            >
+              {theme === 'light' ? 'Dark mode' : 'Light mode'}
+            </button>
+          </div>
+
           <h1>Plan your day with better weather.</h1>
           <p>
             Check live conditions, understand the forecast, and stay ready for
             every city you explore — from crisp mornings to stormy evenings.
           </p>
+
+          <div className="hero-metrics" aria-label="Weather summary info">
+            <span>Today</span>
+            <strong>{todayLabel}</strong>
+          </div>
         </div>
       </section>
 
