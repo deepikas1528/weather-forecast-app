@@ -1,15 +1,22 @@
 import { useEffect, useState } from 'react';
+import {
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
+import { StatusBar } from 'expo-status-bar';
 import SearchBar from './components/SearchBar';
 import WeatherCard from './components/WeatherCard';
 import ForecastCard from './components/ForecastCard';
 
-const API_KEY = process.env.REACT_APP_WEATHER_API_KEY;
+const API_KEY = process.env.EXPO_PUBLIC_WEATHER_API_KEY;
 
 function App() {
   const [city, setCity] = useState('Vancouver');
   const [searchedCity, setSearchedCity] = useState('Vancouver');
   const [unit, setUnit] = useState('metric');
-  const [theme, setTheme] = useState('light');
   const [weather, setWeather] = useState(null);
   const [forecast, setForecast] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -66,7 +73,7 @@ function App() {
     const trimmedApiKey = API_KEY ? API_KEY.trim() : '';
 
     if (!trimmedApiKey) {
-      setError('API key is missing. Please add REACT_APP_WEATHER_API_KEY to your .env file.');
+      setError('API key is missing. Please add EXPO_PUBLIC_WEATHER_API_KEY to your .env file.');
       return;
     }
 
@@ -167,40 +174,21 @@ function App() {
   });
 
   return (
-    <main className={`app ${theme}`}>
-      <section className="hero">
-        <div className="hero-background" aria-hidden="true">
-          <span>Clear Skies</span>
-          <span>Sunrise Plans</span>
-          <span>Rain Watch</span>
-        </div>
+    <SafeAreaView style={styles.safeArea}>
+      <StatusBar style="dark" />
+      <ScrollView contentContainerStyle={styles.container}>
+        <View style={styles.hero}>
+          <Text style={styles.badge}>Skyline Weather</Text>
+          <Text style={styles.title}>Plan your day with better weather.</Text>
+          <Text style={styles.subtitle}>
+            Check live conditions, understand the forecast, and stay ready for every city you explore.
+          </Text>
+          <View style={styles.heroMetric}>
+            <Text style={styles.heroMetricLabel}>Today</Text>
+            <Text style={styles.heroMetricValue}>{todayLabel}</Text>
+          </View>
+        </View>
 
-        <div className="hero-content">
-          <div className="hero-topline">
-            <p className="app-badge">☁️ Skyline Weather</p>
-            <button
-              type="button"
-              className="theme-toggle"
-              onClick={() => setTheme((currentTheme) => currentTheme === 'light' ? 'dark' : 'light')}
-            >
-              {theme === 'light' ? 'Dark mode' : 'Light mode'}
-            </button>
-          </div>
-
-          <h1>Plan your day with better weather.</h1>
-          <p>
-            Check live conditions, understand the forecast, and stay ready for
-            every city you explore — from crisp mornings to stormy evenings.
-          </p>
-
-          <div className="hero-metrics" aria-label="Weather summary info">
-            <span>Today</span>
-            <strong>{todayLabel}</strong>
-          </div>
-        </div>
-      </section>
-
-      <section className="dashboard">
         <SearchBar
           city={city}
           setCity={setCity}
@@ -208,14 +196,93 @@ function App() {
           loading={loading}
         />
 
-        {error && <div className="error-message">{error}</div>}
-        {loading && <div className="loading-message">Fetching latest weather data...</div>}
+        {error ? <Text style={styles.errorMessage}>{error}</Text> : null}
+        {loading ? <Text style={styles.loadingMessage}>Fetching latest weather data...</Text> : null}
 
         <WeatherCard weather={weather} unit={unit} onToggleUnit={handleToggleUnit} />
         <ForecastCard forecast={forecast} unit={unit} />
-      </section>
-    </main>
+      </ScrollView>
+    </SafeAreaView>
   );
 }
+
+const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+    backgroundColor: '#f3f8ff',
+  },
+  container: {
+    paddingHorizontal: 16,
+    paddingBottom: 24,
+    gap: 14,
+  },
+  hero: {
+    marginTop: 8,
+    borderRadius: 18,
+    padding: 18,
+    backgroundColor: '#dff0ff',
+    borderWidth: 1,
+    borderColor: '#c4e4ff',
+  },
+  badge: {
+    alignSelf: 'flex-start',
+    backgroundColor: '#ffffff',
+    color: '#0e375a',
+    borderRadius: 999,
+    overflow: 'hidden',
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    fontWeight: '700',
+    fontSize: 12,
+    marginBottom: 10,
+  },
+  title: {
+    fontSize: 26,
+    color: '#08253f',
+    fontWeight: '800',
+    lineHeight: 34,
+  },
+  subtitle: {
+    fontSize: 14,
+    color: '#2d4f6c',
+    lineHeight: 21,
+    marginTop: 8,
+  },
+  heroMetric: {
+    marginTop: 14,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingTop: 12,
+    borderTopWidth: 1,
+    borderTopColor: '#c1ddf5',
+  },
+  heroMetricLabel: {
+    fontSize: 13,
+    color: '#335d80',
+  },
+  heroMetricValue: {
+    fontSize: 14,
+    color: '#123b5d',
+    fontWeight: '700',
+  },
+  errorMessage: {
+    color: '#b3261e',
+    fontSize: 13,
+    backgroundColor: '#ffe3df',
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: '#f7b2a9',
+    padding: 12,
+  },
+  loadingMessage: {
+    color: '#244f74',
+    fontSize: 13,
+    backgroundColor: '#d9ebff',
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: '#b7d8ff',
+    padding: 12,
+  },
+});
 
 export default App;

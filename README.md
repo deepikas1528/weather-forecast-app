@@ -1,31 +1,32 @@
-# Skyline Weather
+# Skyline Weather Mobile
 
-Skyline Weather is a polished, responsive weather dashboard built with React and the OpenWeatherMap API. It lets users search for any city and instantly view the current conditions, temperature, humidity, wind speed, and a five-day forecast.
+Skyline Weather Mobile is a React Native weather forecasting application built with Expo. It is a mobile adaptation of the original web weather project and provides city-based weather search, current conditions, and a five-day forecast in a mobile-friendly interface.
 
-## Links
+## Submission
 
-- GitHub repository: https://github.com/deepikas1528/weather-forecast-app
-- Published website: https://deepikas1528.github.io/weather-forecast-app/
+- GitHub Repository: https://github.com/deepikas1528/weather-forecast-app
+
+## Purpose
+
+This project transforms the previous React web app into a native-style mobile experience for iOS and Android while preserving core weather functionality.
 
 ## Features
 
-- City search for live weather updates
-- Current weather details including humidity, wind, pressure, and feels-like temperature
+- Search weather by city name
+- Display current weather with icon, temperature, humidity, wind speed, and pressure
 - Five-day forecast cards
-- Unit toggle between Celsius and Fahrenheit
-- Clear loading and error states
-- Responsive design for desktop, tablet, and mobile
-- Modern glassmorphism-inspired interface with custom branding
+- Temperature unit toggle (Celsius/Fahrenheit)
+- Loading and error states for API requests
+- Mobile-optimized UI built with React Native components
 
 ## Tech Stack
 
-- React
+- React Native
+- Expo
 - JavaScript
-- HTML
-- CSS
 - OpenWeatherMap API
 
-## Local Setup
+## Installation and Run
 
 1. Install dependencies:
 
@@ -33,80 +34,46 @@ Skyline Weather is a polished, responsive weather dashboard built with React and
 npm install
 ```
 
-2. Create a `.env` file in the project root and add your API key:
+2. Create or update .env in the project root:
 
 ```env
-REACT_APP_WEATHER_API_KEY=your_openweathermap_api_key_here
+EXPO_PUBLIC_WEATHER_API_KEY=your_openweathermap_api_key_here
 ```
 
-3. Start the app:
+3. Start Expo:
 
 ```bash
 npm start
 ```
 
-4. Visit:
+4. Run on device/emulator:
 
-```text
-http://localhost:3000
-```
-
-> Keep your `.env` file private and do not upload it to GitHub.
-
-## Deployment
-
-This project is configured for GitHub Pages deployment.
-
-```bash
-npm install
-npm run deploy
-```
-
-The production build is published to:
-
-```text
-https://deepikas1528.github.io/weather-forecast-app/
-```
+- Press i in terminal for iOS simulator (macOS)
+- Press a for Android emulator
+- Or scan the QR code in Expo Go
 
 ## Project Structure
 
 ```text
 weather-forecast-app/
-├── public/
-│   └── index.html
-├── src/
-│   ├── components/
-│   │   ├── ForecastCard.js
-│   │   ├── SearchBar.js
-│   │   └── WeatherCard.js
-│   ├── App.css
-│   ├── App.js
-│   └── index.js
-├── .env.example
-├── .gitignore
-├── package.json
-├── README.md
-└── package-lock.json
+|- App.js
+|- app.json
+|- babel.config.js
+|- index.js
+|- src/
+|  |- App.js
+|  |- components/
+|     |- ForecastCard.js
+|     |- SearchBar.js
+|     |- WeatherCard.js
+|- .env.example
+|- package.json
+`- README.md
 ```
 
-## GitHub Submission
+## Additional Notes
 
-Push this project to:
-
-```bash
-git add .
-git commit -m "Prepare GitHub Pages deployment"
-git branch -M main
-git remote add origin https://github.com/deepikas1528/weather-forecast-app.git
-git push -u origin main
-```
-
-## Notes
-
-This project was customized to feel more personal and presentation-ready, with a cleaner hero section, branded messaging, and a more polished style that looks like a finished portfolio project rather than a raw template.
-
-Additional evaluation notes:
-
-- The app uses the OpenWeatherMap API and expects `REACT_APP_WEATHER_API_KEY` in the environment.
-- Because this is a client-side React app, the API key used for any public deployment is embedded into the build output.
-- The repository intentionally excludes `.env`, `node_modules`, and `build` artifacts.
+- The app uses EXPO_PUBLIC_WEATHER_API_KEY so the key can be read by the mobile bundle at runtime.
+- If your API key is new, OpenWeather may take some time to activate it.
+- The previous web deployment setup was removed as part of mobile migration.
+- .env is ignored by git and should not be committed.
